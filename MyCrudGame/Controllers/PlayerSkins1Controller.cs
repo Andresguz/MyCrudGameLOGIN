@@ -78,7 +78,7 @@ namespace MyCrudGame.Controllers
         // POST: api/PlayerSkins1
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<PlayerSkin>> PostPlayerSkin(PlayerSkin playerSkin)
+        public async Task<ActionResult<PlayerSkin>> PostPlayerSkin([FromForm] PlayerSkin playerSkin)
         {
             _context.PlayerSkins.Add(playerSkin);
             try

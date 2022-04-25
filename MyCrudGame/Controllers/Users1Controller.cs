@@ -109,21 +109,36 @@ namespace MyCrudGame.Controllers
         //    return user;
         //}
         [HttpPost]
-        public async Task<ActionResult<Player>> Authenticathe([FromForm] User user)
+        public async Task<ActionResult<Player>> Authenpoticathe([FromForm] User user)
         {
-              var userResp = await Task.Run(() => _context.Users.SingleOrDefault(x=>x.Email== user.Email && x.Mnk == user.Mnk));
+            //using (var context = _context)
+            //{
+            //    var result = _context.Users.SingleOrDefault(x => x.Email == user.Email && x.Mnk == user.Mnk);
+            //    if (result != null)
+            //    {
+            //        result.Email = user.Email;
+            //        context.SaveChanges();
+            //    }
+            //    return Ok();
+            //}
+            var userResp = await Task.Run(() => _context.Users.SingleOrDefault(x => x.Email == user.Email && x.Mnk == user.Mnk));
             //var userResp = await Task.Run(() => _context.Users.SingleOrDefault(x => x.Email == user.Email));
             if (userResp == null)
             {
                 return null;
             }
-            var player = await _context.Players
-                .Include(p => p.Ranks)
-                .Include(p => p.IdNavigation)
-                .Include(p => p.PlayerSkins)
-                .ThenInclude(s => s.Skin)
-                .FirstOrDefaultAsync(m => m.Id == userResp.Id);
-            return player;
+            else
+            {
+
+                var player = await _context.Players
+                               .Include(p => p.Ranks)
+                               .Include(p => p.IdNavigation)
+                               .Include(p => p.PlayerSkins)
+                               .ThenInclude(s => s.Skin)
+                               .FirstOrDefaultAsync(m => m.Id == userResp.Id);
+                return player;
+            }
+
         }
 
         // DELETE: api/Users1/5
