@@ -59,10 +59,39 @@ namespace MyCrudGame.Controllers
 
         // PUT: api/Players1/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutPlayer(int id, Player player)
+        //{
+        //    if (id != player.Id)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    _context.Entry(player).State = EntityState.Modified;
+
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!PlayerExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+
+        //    return NoContent();
+        //}
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPlayer(int id, Player player)
         {
-            if (id != player.Id)
+            var PlayerResp = await Task.Run(() => _context.Players.SingleOrDefault(x => x.NickName == player.NickName));
+            if (id != player.Id | PlayerResp != null)
             {
                 return BadRequest();
             }
@@ -81,6 +110,11 @@ namespace MyCrudGame.Controllers
                 }
                 else
                 {
+                    //var user = await _context.Users
+                    //    .Include(p => p.FirstName)
+                    //    .Include(p => p.LastName)
+                    //    .Include(p => p.Email)
+                    //    .FirstOrDefaultAsync(m => m.Id == PlayerResp.Id);
                     throw;
                 }
             }
